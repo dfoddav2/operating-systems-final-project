@@ -139,57 +139,6 @@ void remove_running_process(pid_t pid)
     }
 }
 
-// TODO: Write about this in the docs
-// Helper function to redirect stdout to a file
-// int redirect_stdout(const char *output_file, int *saved_stdout_fd)
-// {
-//     if (output_file == NULL)
-//         return 0; // No redirection needed
-
-//     // Open the output file
-//     int fd = open(output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//     if (fd == -1)
-//     {
-//         fprintf(stderr, ANSI_COLOR_RED "imcsh: Failed to open file '%s' for writing\n" ANSI_COLOR_RESET, output_file);
-//         return -1;
-//     }
-
-//     // Save the current stdout file descriptor
-//     *saved_stdout_fd = dup(STDOUT_FILENO);
-//     if (*saved_stdout_fd == -1)
-//     {
-//         perror("dup");
-//         close(fd);
-//         return -1;
-//     }
-
-//     // Redirect stdout to the file
-//     if (dup2(fd, STDOUT_FILENO) == -1)
-//     {
-//         perror("dup2");
-//         close(fd);
-//         return -1;
-//     }
-
-//     close(fd); // The original fd is no longer needed
-//     return 0;
-// }
-
-// // Helper function to restore stdout
-// void restore_stdout(int saved_stdout_fd)
-// {
-//     if (saved_stdout_fd == -1)
-//         return;
-
-//     // Restore the original stdout
-//     if (dup2(saved_stdout_fd, STDOUT_FILENO) == -1)
-//     {
-//         perror("dup2");
-//     }
-
-//     close(saved_stdout_fd);
-// }
-
 // ------------------------------------------------------
 // |   Define possible functions for the shell to use   |
 // ------------------------------------------------------
@@ -208,7 +157,7 @@ void help(char *args, int background, const char *output_file)
         }
 
         fprintf(out, "Available commands:\n");
-        fprintf(out, "  globalusage - Display global usage information\n");
+        fprintf(out, "  globalusage - Display basic information about the shell\n");
         fprintf(out, "  help        - Show this help message\n");
         fprintf(out, "  echo        - Echos the user's input\n");
         fprintf(out, "  quit        - Quit the shell\n");
@@ -220,7 +169,7 @@ void help(char *args, int background, const char *output_file)
     else
     {
         printf("Available commands:\n");
-        printf("  globalusage - Display global usage information\n");
+        printf("  globalusage - Display basic information about the shell\n");
         printf("  help        - Show this help message\n");
         printf("  echo        - Echos the user's input\n");
         printf("  quit        - Quit the shell\n");
@@ -595,28 +544,8 @@ void handle_input(char *input_str)
                 return;
             }
 
-            // TODO: Write about it in DOCS
-            // Handle output redirection
-            // int saved_stdout = -1;
-            // if (output_file != NULL)
-            // {
-            //     if (redirect_stdout(output_file, &saved_stdout) == -1) // In case of an error
-            //     {
-            //         free(output_file);
-            //         return;
-            //     }
-            // }
-
             // Call the function with the arguments and background flag
             function_table[i].func(arguments, background, output_file);
-
-            // TODO: Write about it in DOCS
-            // Restore stdout if it was redirected
-            // if (output_file != NULL)
-            // {
-            //     restore_stdout(saved_stdout);
-            //     free(output_file);
-            // }
 
             return;
         }
