@@ -76,7 +76,7 @@ Apparently, the reason it is better is because it's more memory efficient as it 
 ### `>` modifier and the issue with redirecting all output
 My initial idea was that I would call a helper function that redirects the `stdout` using `dup2` as was suggested in the assignment description. However, I decided to not do this afterall, as it could potentially cause issues with how background and foreground processes may get out of sync and redirect the `stdout` in an unexpected way when using combination of `&` modified and regular commands.
 
-Instead I decided to write the output of all the "native" functions of the shell directly to a file, circumventing the need for redirection of the `stdout`, and only the `exec` command would get redirected, which behind the scenes did use `dup` just via the `posix_spawn` wrapper.
+Instead I decided to write the output of all the "native" functions of the shell directly to a file, circumventing the need for redirection of the `stdout`, and only the `exec` command would get redirected which themselves are redirected in the child process, (leaving the parent process's output unaffected) which behind the scenes did use `dup` just via the `posix_spawn` wrapper's `file_actions`.
 
 ### Signals VS Pipes - Parent-Child communication
 When researching the problem I found that child processes send a signal to their parents when finishing, which then could be used to act upon.

@@ -1,14 +1,11 @@
 # Very simple makefile for imcsh
 CC = gcc
 
-imcsh: imcsh.o
-	$(CC) imcsh.o -o imcsh 
-
-imcsh.o: imcsh.c
-	$(CC) -c imcsh.c 
+imcsh: imcsh.c
+	$(CC) imcsh.c -o imcsh
 
 clean:
 	rm -f *.o imcsh
 
-run:
+run: imcsh
 	./imcsh

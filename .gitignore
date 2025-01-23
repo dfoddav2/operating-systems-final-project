@@ -53,3 +53,6 @@ dkms.conf
 
 # Extensions
 output
+
+# Output files
+*.txt
